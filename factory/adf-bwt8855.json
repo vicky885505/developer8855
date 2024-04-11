@@ -1,0 +1,9 @@
+{
+	"name": "adf-bwt8855",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0cc1317d-7f96-4ca5-a54c-f7272251bec6",
+		"tenantId": "07cfe0e2-f9be-4840-b1a1-4de71eb96e1a"
+	}
+}
