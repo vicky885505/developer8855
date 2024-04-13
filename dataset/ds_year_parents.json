@@ -1,0 +1,30 @@
+{
+	"name": "ds_year_parents",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@concat('season_',item().season,'.json')",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('races','/',string(utcNow('yyyyMMdd')))",
+					"type": "Expression"
+				},
+				"container": "output-formula1"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "",
+			"firstRowAsHeader": false,
+			"quoteChar": ""
+		},
+		"schema": []
+	}
+}
