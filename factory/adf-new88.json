@@ -1,0 +1,9 @@
+{
+	"name": "adf-new88",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9e339e6a-8a9c-4ba2-bc76-0984593c4e46",
+		"tenantId": "53db7870-e4ef-4f10-9a10-d0113c5be40b"
+	}
+}
