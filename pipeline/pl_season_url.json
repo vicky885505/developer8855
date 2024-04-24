@@ -1,0 +1,147 @@
+{
+	"name": "pl_season_url",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web_url",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"url": "http://ergast.com/api/f1/seasons.json"
+				}
+			},
+			{
+				"name": "set_variable_url",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Web_url",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "yearwise_url",
+					"value": {
+						"value": "@{activity('Web_url').output}",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "copy_years",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "set_variable_url",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"additionalColumns": [
+							{
+								"name": "col",
+								"value": {
+									"value": "@variables('yearwise_url')",
+									"type": "Expression"
+								}
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "col",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 1
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_url_year",
+						"type": "DatasetReference",
+						"parameters": {
+							"file_name": "formula1_season"
+						}
+					}
+				]
+			}
+		],
+		"variables": {
+			"yearwise_url": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Ingestion"
+		},
+		"annotations": []
+	}
+}
