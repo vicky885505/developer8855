@@ -1,0 +1,32 @@
+{
+	"name": "sink11",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_Practice",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "output"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "UTF8"
+			},
+			{
+				"name": "name",
+				"type": "UTF8"
+			},
+			{
+				"name": "age",
+				"type": "UTF8"
+			}
+		]
+	}
+}
